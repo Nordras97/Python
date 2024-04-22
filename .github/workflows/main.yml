@@ -25,6 +25,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Build project
+      run: |
+        # Add your build commands here
+        # For example, if your project uses Flask, you may not need a build step
+        # If you have any build steps, replace the following line with your build command
+        echo "No build step required"
+
     - name: Run tests
       run: |
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
         python -m unittest discover -s tests -p '*_test.py'
