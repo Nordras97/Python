@@ -22,18 +22,22 @@ jobs:
 
     - name: Install dependencies
       run: |
+        cd $GITHUB_WORKSPACE
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Set up database
       run: |
+        cd $GITHUB_WORKSPACE
         python db.py --delete_all_data --add_default_data --print_all_data
 
     - name: Run API
       run: |
+        cd $GITHUB_WORKSPACE
         python app.py --host localhost --port 5000 &
 
     - name: Run tests
       run: |
+        cd $GITHUB_WORKSPACE
         export PYTHONPATH=$PYTHONPATH:$(pwd)
-        python -m unittest discover -s tests -p '*_test.py'
+        python -m unittest discover -s . -p '*_test.py'
