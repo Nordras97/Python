@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize]
   workflow_dispatch:
 
 jobs:
@@ -44,3 +46,22 @@ jobs:
     - name: Run unit tests
       run: |
         echo "No tests"
+
+  update_and_test:
+    needs: [build]
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Update project code
+      run: |
+        git checkout -b update_branch
+        # Make necessary changes to your project code
+        git commit -am "Update project code"
+        git push origin update_branch
+
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'Update project code'
+        branch: update_branch
