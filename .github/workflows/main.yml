@@ -55,7 +55,6 @@ jobs:
     - name: Update project code
       run: |
         git checkout -b update_branch
-        # Make necessary changes to your project code
         git commit -am "Update project code"
         git push origin update_branch
 
