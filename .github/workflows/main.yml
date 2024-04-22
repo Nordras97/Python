@@ -25,12 +25,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Build project
+    - name: Set up database
       run: |
-        # Add your build commands here
-        # For example, if your project uses Flask, you may not need a build step
-        # If you have any build steps, replace the following line with your build command
-        echo "No build step required"
+        python db.py --delete_all_data --add_default_data --print_all_data
+
+    - name: Run API
+      run: |
+        python app.py --host localhost --port 5000 &
 
     - name: Run tests
       run: |
